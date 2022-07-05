@@ -6,7 +6,7 @@
   "license": "MIT",
   "require": {
     "php": ">=5.5.0",
-    "ok200paul/oauth2-xero": "*",
+    "ok200paul/oauth2-xero": "dev-master",
     "guzzlehttp/guzzle": "^6.5|^7.0",
     "guzzlehttp/psr7": "^1.5|^1.6|^2.1.1",
     "ext-json": "*",
@@ -29,11 +29,18 @@
       "XeroPHP\\Tests\\": "tests/"
     }
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/ok200paul/oauth2-xero"
+  "repositories": {
+    "oauth2-xero": {
+      "type": "package",
+      "package": {
+        "name": "ok200paul/oauth2-xero",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/ok200paul/oauth2-xero.git",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
     }
-  ],
-  "minimum-stability": "dev"
+  }
 }
