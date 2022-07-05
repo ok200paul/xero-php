@@ -2,18 +2,20 @@
 
 namespace XeroPHP\tests;
 
+use PHPUnit\Framework\TestCase;
+use XeroPHP\Exception;
 use XeroPHP\Webhook;
 use XeroPHP\Application;
 use XeroPHP\Application\PrivateApplication;
 
-class EventTest extends \PHPUnit_Framework_TestCase
+class EventTest extends TestCase
 {
     /**
      * @var Application
      */
     private $application;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->application = new Application('token', 'tenantId');
         $this->application->setConfig([
@@ -23,11 +25,10 @@ class EventTest extends \PHPUnit_Framework_TestCase
         ]);
     }
 
-    /**
-     * @expectedException \XeroPHP\Exception
-     */
+
     public function testMalformedPayload()
     {
+        $this->expectException(Exception::class);
         $payload = '{"events":[{"resourceId":"44aa0707-f718-4f1c-8d53-f2da9ca59533","eventDateUtc":"2018-02-09T09:18:28.917Z","eventType":"UPDATE","eventCategory":"INVOICE","tenantId":"e629a03c-7ffe-4913-bd94-ff2fdb36a702","tenantType":"ORGANISATION"}],"firstEventSequence": 2,"lastEventSequence": 3, "entropy": "GATSEZXWIBPBRNQOTMOH"}';
         $webhook = new Webhook($this->application, $payload);
         foreach ($webhook->getEvents() as $evt) {
@@ -112,7 +113,10 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $events = $webhook->getEvents();
 
         $evt = array_pop($events);
-        $this->assertNull($evt->getEventClass());
+        $this->assertNotNull($evt->getEventClass());
+
+        $evt = array_pop($events);
+        $this->assertSame(\XeroPHP\Models\Subscription::class, $evt->getEventClass());
 
         $evt = array_pop($events);
         $this->assertSame(\XeroPHP\Models\Accounting\Contact::class, $evt->getEventClass());
@@ -120,8 +124,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $evt = array_pop($events);
         $this->assertSame(\XeroPHP\Models\Accounting\Invoice::class, $evt->getEventClass());
 
-        $evt = array_pop($events);
-        $this->assertSame(\XeroPHP\Models\Subscription::class, $evt->getEventClass());
+
     }
 
     public function testGetTenantId()
