@@ -6,7 +6,7 @@
   "license": "MIT",
   "require": {
     "php": ">=5.5.0",
-    "calcinai/oauth2-xero": "dev-master",
+    "ok200paul/oauth2-xero": "*",
     "guzzlehttp/guzzle": "^6.5|^7.0",
     "guzzlehttp/psr7": "^1.5|^1.6|^2.1.1",
     "ext-json": "*",
@@ -31,8 +31,9 @@
   },
   "repositories": [
     {
-      "type": "path",
-      "url": "../../ok200paul/oauth2-xero"
+      "type": "vcs",
+      "url": "https://github.com/ok200paul/oauth2-xero"
     }
-  ]
+  ],
+  "minimum-stability": "dev"
 }
